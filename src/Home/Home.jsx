@@ -20,7 +20,7 @@ const Home = () => {
         className="text-input-field"
       />
       <Link to={`/${roomName}`} className="enter-room-button">
-        Join room
+        Join channel
       </Link>
     </div>
   );
