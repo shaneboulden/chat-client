@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi8
+FROM quay.io/smileyfritz/ubi8:latest
 COPY build/ /var/www/html/
 
 RUN yum update --disableplugin=subscription-manager -y && rm -rf /var/cache/yum
