@@ -1,0 +1,23 @@
+FROM quay.io/smileyfritz/ubi8:latest
+COPY build/ /var/www/html/
+
+RUN yum update --disableplugin=subscription-manager -y && rm -rf /var/cache/yum
+RUN yum install --disableplugin=subscription-manager httpd -y && rm -rf /var/cache/yum
+
+COPY conf/httpd.conf /etc/httpd/conf/httpd.conf
+
+RUN chgrp -R 0 /var/log/httpd /var/run/httpd /etc/httpd /var/www/html \
+  && chmod -R g=u /var/log/httpd /var/run/httpd /etc/httpd /var/www/html 
+
+COPY media.repo /etc/yum.repos.d/
+
+RUN yum install --disableplugin=subscription-manager scap-security-guide openscap-scanner -y && rm -rf /var/cache/yum
+
+RUN mkdir -p /opt/scap
+COPY tailoring-xccdf.xml /opt/scap/
+COPY rhel-8.oval.xml /opt/scap/
+
+EXPOSE 8080
+USER 1001
+CMD ["-D","FOREGROUND"]
+ENTRYPOINT ["/usr/sbin/httpd"]

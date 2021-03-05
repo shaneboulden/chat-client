@@ -1,0 +1,11 @@
+[AppStream]
+enabled=1
+name=Red Hat Enterprise Linux 8.3.0
+gpgcheck=0
+baseurl=http://192.168.1.128/AppStream/
+
+[BaseOS]
+enabled=1
+name=Red Hat Enterprise Linux 8.3.0
+gpgcheck=0
+baseurl=http://192.168.1.128/BaseOS/
