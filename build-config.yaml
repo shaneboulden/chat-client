@@ -1,0 +1,47 @@
+kind: "BuildConfig"
+apiVersion: "v1"
+metadata:
+  name: "nodejs-builder"
+spec:
+  strategy:
+    type: JenkinsPipeline
+    jenkinsPipelineStrategy:
+      jenkinsfile: |-
+        podTemplate(label: 'node-builder',
+        cloud: 'openshift',
+        serviceAccount: 'pipeline-svc',
+        name: 'node-builder',
+        inheritFrom: 'nodejs',
+        ){
+        node("node-builder") {
+          stage('Source Checkout') {
+            git branch: 'main',
+                url: "https://github.com/shaneboulden/chat-client.git"
+            script {
+              echo "Cloning the source"
+            }
+          }
+          stage('Install nodejs dependencies') {
+            script {
+              echo "Installling NodeJS dependencies"
+              sh "npm install"
+            }
+          }
+          stage('Smoke test the app') {
+            script {
+              echo "Smoke testing the app"
+              sh "export CI=true && npm run-script test"
+            }
+          }
+          stage('Build and deploy the app') {
+            script {
+              echo "Deploying the app"
+              openshift.withCluster(){
+                openshift.withProject() {
+                  openshift.raw("start-build chat-client")
+                }
+              }
+            }
+          }
+        }
+        }
