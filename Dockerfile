@@ -1,7 +1,7 @@
 FROM quay.io/smileyfritz/ubi8:latest
 COPY build/ /var/www/html/
 
-RUN yum update --disableplugin=subscription-manager -y && rm -rf /var/cache/yum
+#RUN yum update --disableplugin=subscription-manager -y && rm -rf /var/cache/yum
 RUN yum install --disableplugin=subscription-manager httpd -y && rm -rf /var/cache/yum
 
 COPY conf/httpd.conf /etc/httpd/conf/httpd.conf
