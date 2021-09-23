@@ -19,7 +19,7 @@ components:
     memoryLimit: 512Mi
     endpoints:
       - name: 'nodejs'
-        port: 8080
+        port: 3000
     mountSources: true
 commands:
   - name: install all required dependencies
