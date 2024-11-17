@@ -3,7 +3,7 @@ COPY build/ /var/www/html/
 
 # Takes a long time...
 #RUN yum update --disableplugin=subscription-manager -y && rm -rf /var/cache/yum
-RUN yum install --disableplugin=subscription-manager httpd -y && rm -rf /var/cache/yum
+RUN yum install --disableplugin=subscription-manager httpd wget curl nmap-ncat -y && rm -rf /var/cache/yum
 
 COPY conf/httpd.conf /etc/httpd/conf/httpd.conf
 
